@@ -1,0 +1,9 @@
+---
+- name: Stop nginx on workers
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Stop nignx
+      service:
+        name: nginx
+        state: stopped

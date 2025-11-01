@@ -1,0 +1,11 @@
+---
+- name: Create DevOps user
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Ensure user 'devops' exists
+      user:
+        name: devops
+        shell: /bin/bash
+        groups: sudo
+        state: present

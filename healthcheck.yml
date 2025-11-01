@@ -1,0 +1,22 @@
+---
+- name: Check NGINX homepage
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Request homepage
+      uri:
+        url: http://127.0.0.1/
+        return_content: yes
+      register: homepage
+      changed_when: false
+
+    - name: Show HTTP status
+      debug:
+        msg: "Status code from {{ inventory_hostname }} is {{ homepage.status }}"
+
+    - name: Ensure status is 200 OK
+      assert:
+        that:
+          - homepage.status == 200
+        fail_msg: "Homepage is not reachable on {{ inventory_hostname }}"
+        success_msg: "Homepage is up and returning 200 on {{ inventory_hostname }}"
